@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const rightArrowButton = document.getElementById("rightArrow");
 
   let currentIndex = -1;
-  let asteriskPositions = [];
+  let asteriskCount = 0;
 
   countButton.addEventListener("click", function () {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -13,13 +13,12 @@ document.addEventListener("DOMContentLoaded", function () {
         { action: "countAsterisks" },
         function (response) {
           if (chrome.runtime.lastError) {
-            // Handle the error gracefully
             console.error(chrome.runtime.lastError);
             displayCount(0);
           } else {
-            displayCount(response.count);
+            asteriskCount = response.count || 0;
+            displayCount(asteriskCount);
             currentIndex = -1;
-            asteriskPositions = response.asteriskPositions;
           }
         }
       );
@@ -34,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   rightArrowButton.addEventListener("click", function () {
-    if (currentIndex < asteriskPositions.length - 1) {
+    if (currentIndex < asteriskCount - 1) {
       currentIndex++;
       navigateToAsterisk(currentIndex);
     }
@@ -49,8 +48,12 @@ document.addEventListener("DOMContentLoaded", function () {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(
         tabs[0].id,
-        { action: "navigateToAsterisk", index: index },
-        function (response) {}
+        { action: "scrollToAsterisk", index: index },
+        function (response) {
+          if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError);
+          }
+        }
       );
     });
   }
