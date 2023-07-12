@@ -1,6 +1,7 @@
 // Function to count occurrences of the asterisk symbol on the webpage
 function countAsterisks() {
-  const requiredSectionStart = "(This section is required.)";
+  const requiredSectionStart1 = "(This section is required.)";
+  const requiredSectionStart2 = "Custom Fields";
   const requiredSectionEnd = "(This section is not required.)";
 
   const textNodes = getTextNodes(document.body);
@@ -11,9 +12,16 @@ function countAsterisks() {
   for (let i = 0; i < textNodes.length; i++) {
     const nodeText = textNodes[i].nodeValue;
 
-    if (nodeText.includes(requiredSectionStart)) {
+    if (
+      nodeText.includes(requiredSectionStart1) ||
+      nodeText.includes(requiredSectionStart2)
+    ) {
       inRequiredSection = true;
-      const startIndex = nodeText.indexOf(requiredSectionStart);
+      const startIndex = nodeText.indexOf(
+        nodeText.includes(requiredSectionStart1)
+          ? requiredSectionStart1
+          : requiredSectionStart2
+      );
       if (startIndex !== -1) {
         count += countAsterisksInSection(nodeText.substring(startIndex));
       }
@@ -32,6 +40,7 @@ function countAsterisks() {
 
   return count;
 }
+
 
 function countAsterisksInSection(text) {
   const matches = text.match(/\*/g);
