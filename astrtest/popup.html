@@ -1,44 +1,61 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      min-width: 200px;
-      min-height: 100px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .circle {
-      width: 50px;
-      height: 50px;
-      background-color: red;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: bold;
-      font-size: 20px;
-      cursor: pointer;
-    }
-    
-    .count {
-      margin-top: 10px;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <div class="circle" id="countButton"></div>
-  <div class="count">
-  </div>
-  <p>Count: <span id="count"></span></p>
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        min-width: 200px;
+        min-height: 100px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
 
-  <script src="popup.js"></script>
-</body>
+      .circle {
+        width: 50px;
+        height: 50px;
+        background-color: red;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      .count {
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      .button {
+        width: 180px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #3f51b5;
+        border-radius: 5px;
+        color: #3f51b5;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="https://crc-supp-av.accela.com/portlets/picker/capTypePickerSelector.do" target="_blank" class="button">
+      Intake Form Selector
+    </a>
+    <div class="circle" id="countButton"></div>
+    <div class="count"></div>
+    <p>Count: <span id="count"></span></p>
+
+    <script src="popup.js"></script>
+  </body>
 </html>
