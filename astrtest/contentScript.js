@@ -4,6 +4,9 @@ function injectCSS() {
     .highlighted-asterisk {
       background-color: yellow !important;
     }
+    .hidden-span {
+      display: none !important;
+    }
   `;
 
   const style = document.createElement("style");
@@ -34,6 +37,7 @@ function countAsterisks() {
           // Insert a span element with content "!" for navigation
           const spanElement = document.createElement("span");
           spanElement.textContent = "!";
+          spanElement.classList.add("hidden-span");
           tdElement.appendChild(spanElement);
         }
       }
