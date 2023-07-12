@@ -41,12 +41,11 @@ function countAsterisks() {
   return count;
 }
 
-
+// Function to count asterisks in a specific section
 function countAsterisksInSection(text) {
   const matches = text.match(/\*/g);
   return matches ? matches.length : 0;
 }
-
 
 // Helper function to retrieve visible text nodes within an element
 function getTextNodes(element) {
@@ -78,6 +77,40 @@ function isVisibleTextNode(node) {
 
   return true;
 }
+
+// Function to observe mutations in the DOM and track dynamically added asterisks
+function observeMutations() {
+  const observer = new MutationObserver(function (mutationsList) {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+        for (const addedNode of mutation.addedNodes) {
+          if (addedNode.nodeType === Node.TEXT_NODE) {
+            const text = addedNode.nodeValue;
+            const matches = text.match(/\*/g);
+            if (matches) {
+              for (const match of matches) {
+                createAsteriskElement(match);
+              }
+            }
+          }
+        }
+      }
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+// Function to create and highlight an asterisk element
+function createAsteriskElement(asterisk) {
+  const span = document.createElement("span");
+  span.classList.add("highlighted-asterisk");
+  span.textContent = asterisk;
+  document.body.appendChild(span);
+}
+
+// Initialize the mutation observer
+observeMutations();
 
 // Listen for messages from the extension
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
