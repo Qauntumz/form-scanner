@@ -6,7 +6,7 @@ function injectCSS() {
     }
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = css;
   document.head.appendChild(style);
 }
@@ -30,6 +30,11 @@ function countAsterisks() {
         const labelElement = tdElement.querySelector("label");
         if (labelElement) {
           labelElement.classList.add("highlighted-asterisk");
+
+          // Insert a span element with content "!" for navigation
+          const spanElement = document.createElement("span");
+          spanElement.textContent = "!";
+          tdElement.appendChild(spanElement);
         }
       }
     }
@@ -41,8 +46,8 @@ function countAsterisks() {
 function getPosition(element) {
   const rect = element.getBoundingClientRect();
   return {
-    left: rect.left + window.pageXOffset,
-    top: rect.top + window.pageYOffset,
+    left: rect.left + window.scrollX,
+    top: rect.top + window.scrollY,
   };
 }
 
@@ -80,10 +85,14 @@ function getFontElementsWithinSections() {
 }
 
 // Listen for messages from the extension popup
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "countAsterisks") {
     const result = countAsterisks();
     sendResponse(result);
+  } else if (request.action === "navigateToAsterisk") {
+    const position = request.position;
+    if (position) {
+      window.scrollTo(position.left, position.top);
+    }
   }
-  // Add additional message handlers if needed
 });

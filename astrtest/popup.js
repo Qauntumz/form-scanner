@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const rightArrowButton = document.getElementById("rightArrow");
 
   let currentIndex = -1;
-  let fontElements = [];
+  let spanPositions = [];
 
   countButton.addEventListener("click", function () {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error(chrome.runtime.lastError);
             displayCount(0);
           } else {
-            fontElements = response.fontElements || [];
+            spanPositions = response.asteriskPositions || [];
             displayCount(response.count);
             currentIndex = -1;
           }
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   rightArrowButton.addEventListener("click", function () {
-    if (currentIndex < fontElements.length - 1) {
+    if (currentIndex < spanPositions.length - 1) {
       currentIndex++;
       navigateToAsterisk(currentIndex);
     }
@@ -45,16 +45,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function navigateToAsterisk(index) {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      chrome.tabs.sendMessage(
-        tabs[0].id,
-        { action: "navigateToAsterisk", index: index },
-        function (response) {
-          if (chrome.runtime.lastError) {
-            console.error(chrome.runtime.lastError);
-          }
-        }
-      );
-    });
+    const position = spanPositions[index];
+    if (position) {
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(
+          tabs[0].id,
+          { action: "navigateToAsterisk", position: position },
+          function (response) {}
+        );
+      });
+    }
   }
 });
