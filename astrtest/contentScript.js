@@ -48,6 +48,8 @@ function getPosition(element) {
   return {
     left: rect.left + window.scrollX,
     top: rect.top + window.scrollY,
+    width: rect.width,
+    height: rect.height,
   };
 }
 
@@ -92,7 +94,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   } else if (request.action === "navigateToAsterisk") {
     const position = request.position;
     if (position) {
-      window.scrollTo(position.left, position.top);
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const scrollLeft = position.left - viewportWidth / 2 + position.width / 2;
+      const scrollTop = position.top - viewportHeight / 2 + position.height / 2;
+      window.scrollTo(scrollLeft, scrollTop);
     }
   }
 });
