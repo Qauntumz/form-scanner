@@ -14,7 +14,6 @@ function injectCSS() {
 // Call the injectCSS function to apply the CSS rules
 injectCSS();
 
-
 function countAsterisks() {
   const fontElements = getFontElementsWithinSections();
   const asterisks = [];
@@ -25,6 +24,13 @@ function countAsterisks() {
         const position = getPosition(element);
         asterisks.push(position);
         element.classList.add("highlighted-asterisk");
+
+        // Highlight the label element
+        const tdElement = element.parentElement;
+        const labelElement = tdElement.querySelector("label");
+        if (labelElement) {
+          labelElement.classList.add("highlighted-asterisk");
+        }
       }
     }
   }
@@ -39,7 +45,6 @@ function getPosition(element) {
     top: rect.top + window.pageYOffset,
   };
 }
-
 
 // Function to get font elements within the required sections
 function getFontElementsWithinSections() {
