@@ -64,14 +64,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const currentTabUrl = tabs[0].url;
       const newUrl = getRedirectedUrl(currentTabUrl);
       if (newUrl) {
-        chrome.tabs.update(tabs[0].id, { url: newUrl });
+        chrome.tabs.create({ url: newUrl });
       }
     });
   });
 
   // Function to get the redirected URL
   function getRedirectedUrl(url) {
-    const regex = /^(https?:\/\/[^/]+\/)(.*)/;
+    const regex = /^(https?:\/\/[^/]+\/).*$/;
     const match = url.match(regex);
     if (match) {
       const domain = match[1];
