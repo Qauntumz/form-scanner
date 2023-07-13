@@ -61,6 +61,7 @@ function getPosition(element) {
 function getFontElementsWithinSections() {
   const requiredSectionStart1 = "(This section is required.)";
   const requiredSectionStart2 = "Custom Fields";
+  const requiredSectionStart3 = "Addtl Info";
   const requiredSectionEnd = "(This section is not required.)";
 
   const fontElements = Array.from(document.getElementsByTagName("font"));
@@ -71,7 +72,8 @@ function getFontElementsWithinSections() {
     const textContent = element.textContent.trim();
     if (
       textContent === requiredSectionStart1 ||
-      textContent === requiredSectionStart2
+      textContent === requiredSectionStart2 ||
+      textContent === requiredSectionStart3
     ) {
       currentSection.push(element);
     } else if (textContent === requiredSectionEnd) {
