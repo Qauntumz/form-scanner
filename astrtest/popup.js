@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const countButton = document.getElementById("countButton");
+  const scanButton = document.getElementById("scanButton");
   const leftArrowButton = document.getElementById("leftArrow");
   const rightArrowButton = document.getElementById("rightArrow");
 
   let currentIndex = -1;
   let spanPositions = [];
 
-  countButton.addEventListener("click", function () {
+  scanButton.addEventListener("click", function () {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(
         tabs[0].id,
@@ -55,5 +55,28 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       });
     }
+  }
+
+  // Add click event listener to the Intake Form Selector button
+  const intakeFormButton = document.getElementById("intakeFormButton");
+  intakeFormButton.addEventListener("click", function () {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      const currentTabUrl = tabs[0].url;
+      const newUrl = getRedirectedUrl(currentTabUrl);
+      if (newUrl) {
+        chrome.tabs.update(tabs[0].id, { url: newUrl });
+      }
+    });
+  });
+
+  // Function to get the redirected URL
+  function getRedirectedUrl(url) {
+    const regex = /^(https?:\/\/[^/]+\/)(.*)/;
+    const match = url.match(regex);
+    if (match) {
+      const domain = match[1];
+      return domain + "portlets/picker/capTypePickerSelector.do";
+    }
+    return null;
   }
 });
