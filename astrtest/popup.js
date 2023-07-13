@@ -6,6 +6,11 @@ document.addEventListener("DOMContentLoaded", function () {
   let currentIndex = -1;
   let spanPositions = [];
 
+  // Load the stored spanPositions from storage
+  chrome.storage.local.get("spanPositions", function (result) {
+    spanPositions = result.spanPositions || [];
+  });
+
   scanButton.addEventListener("click", function () {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(
@@ -19,6 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
             spanPositions = response.asteriskPositions || [];
             displayCount(response.count);
             currentIndex = -1;
+
+            // Store the updated spanPositions in storage
+            chrome.storage.local.set({ spanPositions });
           }
         }
       );
@@ -59,8 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Add click event listener to the Intake Form Selector button
   const intakeFormButton = document.getElementById("intakeFormButton");
-  intakeFormButton.addEventListener("click", function (event) {
-    event.preventDefault();
+  intakeFormButton.addEventListener("click", function () {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       const currentTabUrl = tabs[0].url;
       const newUrl = getRedirectedUrl(currentTabUrl);

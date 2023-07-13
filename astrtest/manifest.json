@@ -13,9 +13,13 @@
     "icons": {
       "48": "icon48.png"
     },
+    "background": {
+      "service_worker": "background.js"
+    },
     "permissions": [
       "activeTab",
-      "tabs"
+      "tabs",
+      "storage"
     ],
     "content_scripts": [
       {
