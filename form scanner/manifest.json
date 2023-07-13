@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
-    "name": "Asterisk Counter",
-    "version": "1.0",
+    "name": "Form Scanner",
+    "version": "0.5",
     "action": {
       "default_popup": "popup.html",
       "default_icon": {
@@ -14,7 +14,8 @@
       "48": "icon48.png"
     },
     "permissions": [
-      "activeTab"
+      "activeTab",
+      "tabs"
     ],
     "content_scripts": [
       {
