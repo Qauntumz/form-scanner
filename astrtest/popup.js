@@ -59,7 +59,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Add click event listener to the Intake Form Selector button
   const intakeFormButton = document.getElementById("intakeFormButton");
-  intakeFormButton.addEventListener("click", function () {
+  intakeFormButton.addEventListener("click", function (event) {
+    event.preventDefault();
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       const currentTabUrl = tabs[0].url;
       const newUrl = getRedirectedUrl(currentTabUrl);
