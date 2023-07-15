@@ -51,6 +51,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       );
     });
+    countDiv.classList.add("highlight");
+    countDiv.addEventListener("animationend", () => {
+      countDiv.classList.remove("highlight");
+    }, { once: true });
   });
 
   leftArrowButton.addEventListener("click", function () {

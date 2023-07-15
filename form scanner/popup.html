@@ -75,6 +75,35 @@
       .title {
         font-size: 30px;
       }
+      
+      @keyframes highlight {
+        0% {
+          box-shadow: 0 0 10px 3px red;
+        }
+        70% {
+          box-shadow: 0 0 20px 5px red, 0 0 30px 7px red;
+        }
+        100% {
+          box-shadow: 0 0 20px 5px red, 0 0 30px 7px red;
+          opacity: 0;
+        }
+      }
+
+      .highlight {
+        position: relative;
+      }
+
+      .highlight::after {
+        content: "";
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        box-shadow: 0 0 5px 2px red;
+        border-radius: inherit;
+        z-index: -1;
+        animation: highlight 2s ease-out;
+      }
+
+
 
     </style>
   </head>
@@ -89,7 +118,7 @@
       <button id="leftArrow" class="arrow-button">&#8592;</button>
       <button id="rightArrow" class="arrow-button">&#8594;</button>
     </div>
-    <div class="count">
+    <div id="countDiv" class="count">
       Required Fields: <span id="count"></span>
     </div>
 
