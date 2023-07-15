@@ -22,6 +22,11 @@ function countAsterisks() {
   const asterisks = [];
 
   for (const element of fontElements) {
+    const tdElement = element.parentElement;
+    if (tdElement.classList.contains("menuBarbgcolor")) {
+      continue; // Skip counting asterisks if the td element has "menuBarbgcolor" class
+    }
+
     if (element.classList.contains("Redstar")) {
       if (element.textContent.includes("*")) {
         const position = getPosition(element);
@@ -29,7 +34,6 @@ function countAsterisks() {
         element.classList.add("highlighted-asterisk");
 
         // Highlight the label element
-        const tdElement = element.parentElement;
         const labelElement = tdElement.querySelector("label");
         if (labelElement) {
           labelElement.classList.add("highlighted-asterisk");
@@ -46,6 +50,7 @@ function countAsterisks() {
 
   return { count: asterisks.length, asteriskPositions: asterisks };
 }
+
 
 function getPosition(element) {
   const rect = element.getBoundingClientRect();
