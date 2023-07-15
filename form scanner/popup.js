@@ -5,6 +5,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentIndex = -1;
   let spanPositions = [];
+  let count = 0;
+
+  // Retrieve stored values when the popup is opened
+  chrome.storage.local.get(["currentIndex", "spanPositions", "count"], function(result) {
+    currentIndex = result.currentIndex || -1;
+    spanPositions = result.spanPositions || [];
+    count = result.count || 0;
+    displayCount(count);  // display the stored count
+  });
 
   scanButton.addEventListener("click", function () {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -17,8 +26,27 @@ document.addEventListener("DOMContentLoaded", function () {
             displayCount(0);
           } else {
             spanPositions = response.asteriskPositions || [];
-            displayCount(response.count);
+            // Save spanPositions in storage
+            chrome.storage.local.set({spanPositions: spanPositions}, function() {
+              if (chrome.runtime.lastError) {
+                console.error(chrome.runtime.lastError);
+              }
+            });
+            count = response.count;
+            displayCount(count);
+            // Save count in storage
+            chrome.storage.local.set({count: count}, function() {
+              if (chrome.runtime.lastError) {
+                console.error(chrome.runtime.lastError);
+              }
+            });
             currentIndex = -1;
+            // Save currentIndex in storage
+            chrome.storage.local.set({currentIndex: currentIndex}, function() {
+              if (chrome.runtime.lastError) {
+                console.error(chrome.runtime.lastError);
+              }
+            });
           }
         }
       );
@@ -29,6 +57,12 @@ document.addEventListener("DOMContentLoaded", function () {
     if (currentIndex > 0) {
       currentIndex--;
       navigateToAsterisk(currentIndex);
+      // Save currentIndex in storage
+      chrome.storage.local.set({currentIndex: currentIndex}, function() {
+        if (chrome.runtime.lastError) {
+          console.error(chrome.runtime.lastError);
+        }
+      });
     }
   });
 
@@ -36,6 +70,12 @@ document.addEventListener("DOMContentLoaded", function () {
     if (currentIndex < spanPositions.length - 1) {
       currentIndex++;
       navigateToAsterisk(currentIndex);
+      // Save currentIndex in storage
+      chrome.storage.local.set({currentIndex: currentIndex}, function() {
+        if (chrome.runtime.lastError) {
+          console.error(chrome.runtime.lastError);
+        }
+      });
     }
   });
 
