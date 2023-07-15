@@ -22,19 +22,26 @@ function countAsterisks() {
   const asterisks = [];
 
   for (const element of fontElements) {
-    const tdElement = element.parentElement;
+    let tdElement = element.parentElement;
     if (tdElement.classList.contains("menuBarbgcolor")) {
       continue; // Skip counting asterisks if the td element has "menuBarbgcolor" class
     }
 
     if (element.classList.contains("Redstar")) {
       if (element.textContent.includes("*")) {
+        let labelElement = tdElement.querySelector("label");
+        if (!labelElement) {
+          const parentLink = tdElement.parentElement.closest("a");
+          if (parentLink) {
+            tdElement = parentLink.parentElement;
+            labelElement = tdElement.querySelector("label");
+          }
+        }
+
         const position = getPosition(element);
         asterisks.push(position);
         element.classList.add("highlighted-asterisk");
 
-        // Highlight the label element
-        const labelElement = tdElement.querySelector("label");
         if (labelElement) {
           labelElement.classList.add("highlighted-asterisk");
 
@@ -51,7 +58,6 @@ function countAsterisks() {
   return { count: asterisks.length, asteriskPositions: asterisks };
 }
 
-
 function getPosition(element) {
   const rect = element.getBoundingClientRect();
   return {
@@ -67,6 +73,7 @@ function getFontElementsWithinSections() {
   const requiredSectionStart1 = "(This section is required.)";
   const requiredSectionStart2 = "Custom Fields";
   const requiredSectionStart3 = "Addtl Info";
+  const requiredSectionStart4 = "Custom Lists";
   const requiredSectionEnd = "(This section is not required.)";
 
   const fontElements = Array.from(document.getElementsByTagName("font"));
@@ -78,7 +85,8 @@ function getFontElementsWithinSections() {
     if (
       textContent === requiredSectionStart1 ||
       textContent === requiredSectionStart2 ||
-      textContent === requiredSectionStart3
+      textContent === requiredSectionStart3 ||
+      textContent === requiredSectionStart4
     ) {
       currentSection.push(element);
     } else if (textContent === requiredSectionEnd) {
@@ -96,6 +104,7 @@ function getFontElementsWithinSections() {
 
   return sections.flat();
 }
+
 
 // Listen for messages from the extension popup
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
