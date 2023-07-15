@@ -28,6 +28,11 @@
         cursor: pointer;
         margin-bottom: 10px;
       }
+      
+      button:active {
+        transform: scale(0.95);
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+      }
 
       .button {
         width: 180px;
@@ -42,6 +47,11 @@
         font-size: 16px;
         cursor: pointer;
         margin-bottom: 10px;
+      }
+
+      button:active {
+        transform: scale(0.95);
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
       }
 
       .button-container {
@@ -65,6 +75,11 @@
         font-size: 20px;
         cursor: pointer;
         margin: 5px;
+      }
+
+      .arrow-button:active {
+        transform: scale(0.95);
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
       }
 
       .button-group {
@@ -110,7 +125,7 @@
   <body>
     <div class="title">Form Scanner</div>
     <div class="button-container">
-      <a id="intakeFormButton" class="button" target="_blank">Intake Form Selector</a>
+      <button id="intakeFormButton" class="button" target="_blank">Intake Form Selector</a>
 
       <button id="scanButton" class="scan-button">Scan Required Fields</button>
     </div>
